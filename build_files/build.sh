@@ -13,7 +13,16 @@ cp -avf "/ctx/system_files"/. /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y niri distrobox nautilus polkit
+dnf5 install -y niri distrobox nautilus polkit git podman ssh curl wget zsh flatpak-spawn lightdm
+
+dnf5 -y copr enable scottames/ghostty
+dnf5 -y install ghostty
+dnf5 -y copr disable scottames/ghostty
+
+useradd -m -G wheel -s /usr/bin/zsh liveuser
+passwd -d liveuser
+
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel-nopasswd
 
 # Use a COPR Example:
 #
@@ -25,3 +34,4 @@ dnf5 install -y niri distrobox nautilus polkit
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+systemctl enable lightdm.service
